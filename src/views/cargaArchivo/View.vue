@@ -122,7 +122,6 @@ import { sharedMixin } from "../../Mixin/sharedMixin.js"; // Importar un mixin l
 
 export default {
   components: { TableResult }, // Importar el componente personalizado TableResult
-
   created() {
     // Método creado automáticamente al crear la instancia del componente.
     // Recupera configuraciones previas desde el almacenamiento local del navegador si existen.
@@ -201,6 +200,7 @@ export default {
       this.delimiter = null;
       this.datosTablaResult = [];
       this.data = null;
+      this.caracterDecimal = null;
 
       this.clearFileInput(); // Limpia el campo de selección de archivo
 
@@ -208,6 +208,8 @@ export default {
       localStorage.removeItem("datos");
       localStorage.removeItem("checkHeaders");
       localStorage.removeItem("delimiter");
+      localStorage.removeItem("caracterDecimal");
+      localStorage.removeItem("csvData");
     },
 
     clearFileInput() {
@@ -255,6 +257,14 @@ export default {
         this.data.pop(); // Elimina la última fila
       }
     },
+
+
+    showSuccessNotification() {
+      this.$toast.success('¡Éxito! Esta es una notificación de éxito.')
+    },
+    showErrorNotification() {
+      this.$toast.error('¡Error! Esta es una notificación de error.')
+    }
   },
 };
 </script>
