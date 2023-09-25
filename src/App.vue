@@ -1,0 +1,26 @@
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
+</script>
+
+<template>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="wrapper">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <RouterLink class="nav-link active" to="/">Manual</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/carga-archivo"
+              >Cargar Archivo</RouterLink
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <RouterView />
+</template>
+
+
