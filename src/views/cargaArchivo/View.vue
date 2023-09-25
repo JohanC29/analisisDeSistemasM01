@@ -2,8 +2,10 @@
 import TableResult from "../../components/TableResult.vue";
 </script>
 <template>
+  <!-- Contenedor principal de la aplicación -->
   <main>
     <div class="container mt-5">
+      <!-- Componente personalizado TableResult -->
       <table-result :isVisible="true" :datos="datosTablaResult"></table-result>
     </div>
     <div class="container">
@@ -11,7 +13,9 @@ import TableResult from "../../components/TableResult.vue";
         <div class="card-body">
           <h1 class="card-title">Subir archivo CSV</h1>
 
+          <!-- Formulario para configuración de procesamiento CSV -->
           <div class="row">
+            <!-- Configuración del delimitador CSV -->
             <div class="col">
               <div class="row">
                 <label for="staticEmail" class="col-sm-6 col-form-label"
@@ -22,6 +26,7 @@ import TableResult from "../../components/TableResult.vue";
                 </div>
               </div>
             </div>
+            <!-- Configuración del carácter decimal -->
             <div class="col">
               <div class="row">
                 <label for="staticEmail" class="col-sm-6 col-form-label"
@@ -36,6 +41,7 @@ import TableResult from "../../components/TableResult.vue";
                 </div>
               </div>
             </div>
+            <!-- Opción para excluir encabezados del archivo CSV -->
             <div class="col">
               <div class="form-check">
                 <label class="form-check-label" for="checkHeaders">
@@ -51,6 +57,7 @@ import TableResult from "../../components/TableResult.vue";
               </div>
             </div>
           </div>
+          <!-- Input de selección de archivo CSV -->
           <div class="row mt-2">
             <div class="col">
               <input
@@ -63,6 +70,7 @@ import TableResult from "../../components/TableResult.vue";
             </div>
           </div>
 
+          <!-- Botones para procesar y limpiar datos -->
           <div class="row">
             <div class="col-3 d-grid">
               <button
@@ -84,6 +92,7 @@ import TableResult from "../../components/TableResult.vue";
             </div>
           </div>
 
+          <!-- Mostrar datos del archivo CSV procesado -->
           <div v-if="data">
             <h2 class="mt-4">Contenido del archivo CSV:</h2>
             <table class="table table-bordered">
@@ -108,12 +117,15 @@ import TableResult from "../../components/TableResult.vue";
 </template>
 
 <script>
-import Papa from "papaparse";
-import { sharedMixin } from "../../Mixin/sharedMixin.js";
+import Papa from "papaparse"; // Importar la biblioteca PapaParse para analizar archivos CSV
+import { sharedMixin } from "../../Mixin/sharedMixin.js"; // Importar un mixin llamado sharedMixin (no se proporciona aquí)
 
 export default {
-  components: { TableResult },
+  components: { TableResult }, // Importar el componente personalizado TableResult
+
   created() {
+    // Método creado automáticamente al crear la instancia del componente.
+    // Recupera configuraciones previas desde el almacenamiento local del navegador si existen.
     if (localStorage.getItem("checkHeaders") != null) {
       this.checkHeaders = localStorage.checkHeaders;
     }
@@ -124,21 +136,27 @@ export default {
       this.caracterDecimal = localStorage.caracterDecimal;
     }
   },
+
   data() {
+    // Definición de los datos locales del componente.
     return {
-      data: null,
-      checkHeaders: null,
-      delimiter: null,
-      datosTablaResult: [],
-      matriz: [],
-      caracterDecimal: null,
+      data: null, // Datos del archivo CSV analizado
+      checkHeaders: null, // Bandera para excluir encabezados
+      delimiter: null, // Delimitador utilizado en el archivo CSV
+      datosTablaResult: [], // Datos para la tabla de resultados
+      matriz: [], // Una matriz para almacenar datos del archivo CSV
+      caracterDecimal: null, // Carácter decimal utilizado en el archivo CSV
     };
   },
-  mixins: [sharedMixin],
+
+  mixins: [sharedMixin], // Agregar el mixin compartido al componente
+
   methods: {
     handleFileUpload(event) {
+      // Maneja la carga de un archivo CSV desde el formulario
       const file = event.target.files[0];
 
+      // Configuraciones por defecto si no se especifican
       if (this.checkHeaders === null) {
         this.checkHeaders = false;
       }
@@ -147,77 +165,83 @@ export default {
         this.delimiter = ";";
       }
 
+      // Utiliza PapaParse para analizar el archivo CSV
       Papa.parse(file, {
-        delimiter: this.delimiter,
-        header: false,
+        delimiter: this.delimiter, // Utiliza el delimitador especificado
+        header: false, // Indica que el archivo CSV no tiene encabezados
         complete: (result) => {
-          this.data = result.data;
+          this.data = result.data; // Almacena los datos analizados en 'data'
 
           // Almacena los datos en el almacenamiento local del navegador
           if (this.checkHeaders) {
-            this.data.shift();
+            this.data.shift(); // Excluye la primera fila si se deben excluir encabezados
           }
 
-          this.validarYEliminarUltimaFila();
+          this.validarYEliminarUltimaFila(); // Valida y elimina la última fila si es necesario
 
+          // Convierte los datos en una matriz y almacena en 'matriz'
           this.data.forEach((element) => {
             this.llenadoMatriz(element[0], element[1]);
           });
 
+          // Almacena las configuraciones en el almacenamiento local
           localStorage.setItem("checkHeaders", this.checkHeaders);
           localStorage.setItem("delimiter", this.delimiter);
           localStorage.setItem("caracterDecimal", this.caracterDecimal);
         },
         error: (error) => {
-          console.error(error.message);
+          console.error(error.message); // Maneja errores y los muestra en la consola
         },
       });
     },
 
     limpiarDatos() {
+      // Restablece todas las configuraciones y datos
       this.checkHeaders = null;
       this.delimiter = null;
       this.datosTablaResult = [];
       this.data = null;
 
-      this.clearFileInput();
+      this.clearFileInput(); // Limpia el campo de selección de archivo
 
+      // Elimina las configuraciones del almacenamiento local
       localStorage.removeItem("datos");
       localStorage.removeItem("checkHeaders");
       localStorage.removeItem("delimiter");
     },
 
     clearFileInput() {
+      // Limpia el campo de selección de archivo
       this.$refs.fileInput.value = "";
     },
 
     llenadoMatriz(proxySize, developerHours) {
+      // Llena la matriz con datos del archivo CSV
       const item = {
         proxySize: 0,
         developerHours: 0,
       };
 
-      item.proxySize = parseInt(proxySize);
+      item.proxySize = parseInt(proxySize); // Convierte a entero
       item.developerHours = parseFloat(
         developerHours.replace(this.caracterDecimal, ".")
-      );
+      ); // Convierte a flotante y reemplaza el carácter decimal
 
-      
-
-      this.matriz.push(item);
+      this.matriz.push(item); // Agrega el elemento a la matriz
     },
 
     procesarDatos() {
+      // Procesa los datos almacenados en 'matriz' y actualiza 'datosTablaResult'
       if (this.matriz.length === 0) {
         this.datosTablaResult = [];
-        return; // Retorna NaN si el arreglo está vacío
+        return; // Retorna un arreglo vacío si la matriz está vacía
       }
 
-      this.datosTablaResult = this.calcularResultados(this.matriz);
-
+      this.datosTablaResult = this.calcularResultados(this.matriz); // Calcula resultados
     },
+
     validarYEliminarUltimaFila() {
-      // Validar si la última fila está vacía, null o undefined
+      // Valida si la última fila está vacía, null o undefined y la elimina si es necesario
       const ultimoElemento = this.data[this.data.length - 1];
 
       if (
@@ -228,14 +252,9 @@ export default {
         ultimoElemento.proxySize === null ||
         ultimoElemento.proxySize === undefined
       ) {
-        this.data.pop(); // Eliminar la última fila
+        this.data.pop(); // Elimina la última fila
       }
-      // this.miArray contendrá el array sin la última fila vacía, null o undefined
     },
   },
 };
 </script>
-
-<style>
-/* Puedes personalizar los estilos aquí según tus preferencias */
-</style>

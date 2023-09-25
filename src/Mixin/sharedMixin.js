@@ -1,8 +1,9 @@
 // sharedMixin.js
+// Este componente mixin cuenta con la logica necesaria
+// para calcular el promedio y desviacion estandar de los datos
 export const sharedMixin = {
   methods: {
     calcularResultados(matriz) {
-
       // Calcular media y desviación estándar para "proxySize"
       const itemResultProxy = {
         mean: this.calcularMedia(matriz, "proxySize"),
@@ -17,6 +18,7 @@ export const sharedMixin = {
         description: "Table 1: Column 2 developerHours",
       };
 
+      // Retorno de los resultados para ser ingresados al componente TableResult.vue
       return [itemResultProxy, itemResultDeveloperHours];
     },
     calcularMedia(arr, atributo) {
@@ -30,9 +32,6 @@ export const sharedMixin = {
       return (suma / arr.length).toFixed(2);
     },
     calcularDesviacionEstandar(arr, atributo) {
-
-      
-
       if (arr.length === 0) {
         return NaN; // Retorna NaN si el arreglo está vacío
       }
@@ -44,7 +43,7 @@ export const sharedMixin = {
         return acumulador + diferencia * diferencia;
       }, 0);
 
-      const varianza = sumaDiferenciasCuadradas / (arr.length-1);
+      const varianza = sumaDiferenciasCuadradas / (arr.length - 1);
       const desviacionEstandar = Math.sqrt(varianza);
 
       // console.log(atributo);

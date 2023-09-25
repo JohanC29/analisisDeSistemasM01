@@ -1,3 +1,4 @@
+<!-- Componente para el manejo de la tabla de resultados -->
 <template>
   <div class="card text-end mb-3">
     <div class="card-body">
