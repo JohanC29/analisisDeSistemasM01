@@ -36,11 +36,14 @@ import TableResult from "../components/TableResult.vue";
                 ref="inputProxySize"
                 :class="isValideProxySize"
               />
+              <div id="inputProxySizeFeedback" class="invalid-feedback">
+                Numeros naturales mayores a cero.
+              </div>
             </div>
             <!-- Campo de entrada para 'Developer Hours' -->
             <!-- Cambia el foco al campo 'Estimated Proxy Size' al presionar Enter -->
             <!-- Aplica una clase condicional según la validez -->
-            <div class="col-5">
+            <div class="col-4">
               <label for="inputDeveloperHours" class="form-label"
                 >Developer Hours</label
               >
@@ -55,6 +58,19 @@ import TableResult from "../components/TableResult.vue";
                 ref="inputDeveloperHours"
                 :class="isValideDeveloperHours"
               />
+              <div id="inputDeveloperHoursFeedback" class="invalid-feedback">
+                Numeros reales mayores a cero.
+              </div>
+            </div>
+
+            <div class="col-1" style="display: flex; justify-content: center">
+              <button
+                type="button"
+                class="btn btn-success btn-bg"
+                @click="focusInputProxySize()"
+              >
+                <i class="bi bi-plus-circle"></i>
+              </button>
             </div>
             <!-- Botones de procesamiento y limpieza -->
             <div class="col-2 d-grid">
@@ -192,7 +208,7 @@ export default {
       if (value === null || !Number.isInteger(value)) {
         return false;
       }
-      if (value < 0) {
+      if (value <= 0) {
         return false;
       }
       return true;
@@ -203,7 +219,7 @@ export default {
       if (value === null || !isFinite(value)) {
         return false;
       }
-      if (value < 0) {
+      if (value <= 0) {
         return false;
       }
       return true;
@@ -235,9 +251,11 @@ export default {
       // Método para procesar los datos almacenados en la matriz y calcular resultados
       if (this.matriz.length === 0) {
         this.datosTablaResult = [];
+        this.$toast.error("¡Error! Por favor ingresar datos a la tabla.");
         return; // Retorna un arreglo vacío si la matriz está vacía
       }
       this.datosTablaResult = this.calcularResultados(this.matriz); // Calcula resultados
+      this.$toast.success("¡Éxito! Datos procesados.");
     },
   },
 };

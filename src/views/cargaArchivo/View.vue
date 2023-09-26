@@ -95,15 +95,23 @@ import TableResult from "../../components/TableResult.vue";
           <!-- Mostrar datos del archivo CSV procesado -->
           <div v-if="data">
             <h2 class="mt-4">Contenido del archivo CSV:</h2>
-            <table class="table table-bordered">
+
+            <table class="table table-hover table-bordered table-sm">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <!-- <table class="table table-bordered">
               <thead>
-                <tr>
+                <tr> -->
                   <th>Estimated Proxy Size</th>
                   <th>Development Hours</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="(row, index) in data" :key="index">
+              <tbody class="text-center">
+                <tr
+                  v-for="(row, index) in data"
+                  :key="index"
+                  :class="{ 'table-danger': !areNumbers(row) }"
+                >
                   <td>{{ row[0] }}</td>
                   <td>{{ row[1] }}</td>
                 </tr>
@@ -169,27 +177,38 @@ export default {
         delimiter: this.delimiter, // Utiliza el delimitador especificado
         header: false, // Indica que el archivo CSV no tiene encabezados
         complete: (result) => {
-          this.data = result.data; // Almacena los datos analizados en 'data'
+          if (this.validarEstructura(result.data)) {
+            this.data = result.data; // Almacena los datos analizados en 'data'
 
-          // Almacena los datos en el almacenamiento local del navegador
-          if (this.checkHeaders) {
-            this.data.shift(); // Excluye la primera fila si se deben excluir encabezados
+            // Almacena los datos en el almacenamiento local del navegador
+            if (this.checkHeaders) {
+              this.data.shift(); // Excluye la primera fila si se deben excluir encabezados
+            }
+
+            this.validarYEliminarUltimaFila(); // Valida y elimina la última fila si es necesario
+
+            // Convierte los datos en una matriz y almacena en 'matriz'
+            this.data.forEach((element) => {
+              this.llenadoMatriz(element[0], element[1]);
+            });
+
+            // Validacion si los datos ingresados son todos numeros
+            if (!this.validarEsMatrizNumero(this.matriz)) {
+              this.matriz = [];
+              return;
+            }
+
+            // Almacena las configuraciones en el almacenamiento local
+            localStorage.setItem("checkHeaders", this.checkHeaders);
+            localStorage.setItem("delimiter", this.delimiter);
+            localStorage.setItem("caracterDecimal", this.caracterDecimal);
           }
-
-          this.validarYEliminarUltimaFila(); // Valida y elimina la última fila si es necesario
-
-          // Convierte los datos en una matriz y almacena en 'matriz'
-          this.data.forEach((element) => {
-            this.llenadoMatriz(element[0], element[1]);
-          });
-
-          // Almacena las configuraciones en el almacenamiento local
-          localStorage.setItem("checkHeaders", this.checkHeaders);
-          localStorage.setItem("delimiter", this.delimiter);
-          localStorage.setItem("caracterDecimal", this.caracterDecimal);
         },
         error: (error) => {
           console.error(error.message); // Maneja errores y los muestra en la consola
+          this.$toast.error(
+            "¡Error! El archivo no cuenta con el formato adecuado."
+          );
         },
       });
     },
@@ -236,10 +255,12 @@ export default {
       // Procesa los datos almacenados en 'matriz' y actualiza 'datosTablaResult'
       if (this.matriz.length === 0) {
         this.datosTablaResult = [];
+        this.$toast.error("¡Error! Por favor cargue un archivo plano.");
         return; // Retorna un arreglo vacío si la matriz está vacía
       }
 
       this.datosTablaResult = this.calcularResultados(this.matriz); // Calcula resultados
+      this.$toast.success("¡Éxito! Datos procesados.");
     },
 
     validarYEliminarUltimaFila() {
@@ -258,13 +279,34 @@ export default {
       }
     },
 
-
-    showSuccessNotification() {
-      this.$toast.success('¡Éxito! Esta es una notificación de éxito.')
+    validarEstructura(datos) {
+      
+      if (datos[0].length !== 2) {
+        this.$toast.error(
+          "¡Error! Estructura invalida. Debe contener dos columnas."
+        );
+        return false;
+      }
+      return true;
     },
-    showErrorNotification() {
-      this.$toast.error('¡Error! Esta es una notificación de error.')
-    }
+    validarEsMatrizNumero(matriz) {
+      for (const fila of this.matriz) {
+        
+        if (
+          isNaN(Number(fila.proxySize)) ||
+          isNaN(Number(fila.developerHours))
+        ) {
+          this.$toast.error(
+            "¡Error! El archivo cargado contiene un elemento que no es un número válido. "
+          );
+          return false;
+        }
+      }
+      return true;
+    },
+    areNumbers(row) {
+      return row.every((value) => !isNaN(parseFloat(value)));
+    },
   },
 };
 </script>
