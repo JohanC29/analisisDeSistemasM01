@@ -28,4 +28,4 @@ S -- No --> R
 T --> U{¿Datos cargados?}
 U -- Sí --> G
 U -- No --> T
-```mermaid
+```
