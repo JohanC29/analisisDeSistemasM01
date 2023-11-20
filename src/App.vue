@@ -15,6 +15,11 @@ import { RouterLink, RouterView } from "vue-router";
               >Cargar Archivo</RouterLink
             >
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/modulo-salas"
+              >Modulo Salas</RouterLink
+            >
+          </li>
         </ul>
       </div>
     </nav>
