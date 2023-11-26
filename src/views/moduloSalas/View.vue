@@ -1,3 +1,4 @@
+
 <template>
   <!-- Contenedor principal de la aplicación -->
   <main>
@@ -38,6 +39,28 @@
                       }"
                     >
                       Invitado
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      class="nav-link"
+                      @click="select('reporte')"
+                      :class="{
+                        active: selectedRole === 'reporte',
+                      }"
+                    >
+                      Reporte
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      class="nav-link"
+                      @click="select('cargaEstudiantes')"
+                      :class="{
+                        active: selectedRole === 'cargaEstudiantes',
+                      }"
+                    >
+                      Carga Estudiantes
                     </button>
                   </li>
                 </ul>
@@ -637,6 +660,18 @@
               </div>
             </div>
           </div>
+
+          <div v-if="selectedRole === 'reporte'">
+            <!-- Componente personalizado TableResult -->
+            <reporte-modulo-salas
+            ></reporte-modulo-salas>
+          </div>
+
+          <div v-if="selectedRole === 'cargaEstudiantes'">
+            <!-- Componente personalizado Carga Archvio Modulo Salas -->
+            <carga-archivo-modulo-salas
+            ></carga-archivo-modulo-salas>
+          </div>
         </div>
       </div>
     </div>
@@ -645,6 +680,7 @@
 
 <script>
 import axios from "axios";
+
 import {
   GET_ESTUDIANTE_BY_DOCUMENTO,
   GET_SALA_DISPONIBLE,
@@ -660,7 +696,11 @@ import {
   POST_SAVE_REGISTROSALA,
 } from "@/config/apiUrls.js";
 
+import ReporteModuloSalas from "../../components/ReporteModuloSalas.vue";
+import CargaArchivoModuloSalas from '../../components/CargaArchivoModuloSalas.vue';
+
 export default {
+  components: { ReporteModuloSalas, CargaArchivoModuloSalas },
   created() {
     this.obtenerFacultad();
   },

@@ -14,6 +14,12 @@ export const GET_PROFESOR = `${API_BASE_URL}/salas-controller/get-profesor`;
 export const GET_CURSO_BY_PROGRAMA = `${API_BASE_URL}/salas-controller/get-curso-by-idprograma`;
 export const GET_SALA_DISPONIBLE_PROFESOR = `${API_BASE_URL}/salas-controller/get-sala-disponible-profesor`;
 export const POST_SAVE_REGISTROSALA = `${API_BASE_URL}/salas-controller/save-registrosala`;
+export const GET_REPORT_SALA_MODULO = `${API_BASE_URL}/salas-controller/get-reporte`;
+export const GET_PROGRAMA = `${API_BASE_URL}/salas-controller/get-programa`;
+export const GET_SEMESTRE = `${API_BASE_URL}/salas-controller/get-semestre`;
+export const GET_JORNADA = `${API_BASE_URL}/salas-controller/get-jornada`;
+export const POST_SAVE_ESTUDIANTE_LISTA = `${API_BASE_URL}/salas-controller/save-estudiante-lista`;
+
 
 // ... más URLs según sea necesario
 
@@ -31,4 +37,9 @@ export default {
   GET_CURSO_BY_PROGRAMA,
   GET_SALA_DISPONIBLE_PROFESOR,
   POST_SAVE_REGISTROSALA,
+  GET_REPORT_SALA_MODULO,
+  GET_PROGRAMA,
+  GET_SEMESTRE,
+  GET_JORNADA,
+  POST_SAVE_ESTUDIANTE_LISTA,
 };
