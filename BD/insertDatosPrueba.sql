@@ -44,11 +44,33 @@ INSERT INTO `estudiante` (`id`, `documento`, `nombre`, `apellido`, `idprograma`,
 (1, '1010107814', 'JOHAN CAMILO', 'MUELAS VERAZA', 1, 2, 3, 'ACTIVO'),
 (2, '111222333', 'GABRIEL', 'CARDONA', 1, 2, 3, 'ACTIVO');
 
+--- Insert datos modulo de portatiles
+INSERT INTO `dependencia` (`id`, `descripcion`, `estado`) VALUES 
+(NULL, 'Académica', 'ACTIVO'), 
+(NULL, 'Administrativa', 'ACTIVO');
+
+INSERT INTO `funcionario` (`id`, `documento`, `nombre`, `apellido`, `iddependencia`, `estado`) VALUES 
+(NULL, '1110107814', 'NOMBRE FUNCIONARIO 111010107814', 'APELLIDO FUNCIONARIO', '1', 'ACTIVO'), 
+(NULL, '111010107815', 'NOMBRE FUNCIONARIO 1110107815', 'APELLIDO FUNCIONARIO', '2', 'ACTIVO');
+
+INSERT INTO `ubicacion` (`id`, `descripcion`, `estado`) VALUES 
+(NULL, 'BIBLIOTECA', 'ACTIVO'), 
+(NULL, 'PASILLO PISO 1 B4', 'ACTIVO');
+
+INSERT INTO `usuariolistanegra` (`id`, `idfuncionario`, `idestudiante`, `idprofesor`, `fechacreacion`) VALUES 
+(NULL, '2', NULL, NULL, CURRENT_TIMESTAMP), 
+(NULL, NULL, '1', NULL, CURRENT_TIMESTAMP), 
+(NULL, NULL, NULL, '2', CURRENT_TIMESTAMP);
 
 
 
+INSERT INTO equipo
+(id, descripcion, idsala)
+VALUES(null, 'PORTATIL 01', NULL);
 
-
+INSERT INTO equipo
+(id, descripcion, idsala)
+VALUES(null, 'PORTATIL 02', NULL);
 
 
 

@@ -20,6 +20,11 @@ import { RouterLink, RouterView } from "vue-router";
               >Modulo Salas</RouterLink
             >
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/modulo-portatiles"
+              >Modulo Portatiles</RouterLink
+            >
+          </li>
         </ul>
       </div>
     </nav>

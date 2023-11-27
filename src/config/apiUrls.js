@@ -19,7 +19,12 @@ export const GET_PROGRAMA = `${API_BASE_URL}/salas-controller/get-programa`;
 export const GET_SEMESTRE = `${API_BASE_URL}/salas-controller/get-semestre`;
 export const GET_JORNADA = `${API_BASE_URL}/salas-controller/get-jornada`;
 export const POST_SAVE_ESTUDIANTE_LISTA = `${API_BASE_URL}/salas-controller/save-estudiante-lista`;
-
+export const GET_USUARIO_BY_DOCUMENTO = `${API_BASE_URL}/salas-controller/get-usuario-by-documento`;
+export const GET_UBICACION = `${API_BASE_URL}/salas-controller/get-ubicacion`;
+export const POST_SAVE_REGISTRO_PORTATIL = `${API_BASE_URL}/salas-controller/save-registro-portatil`;
+export const GET_SOLICITUDES_PENDIENTES = `${API_BASE_URL}/salas-controller/get-solicitudes-pendientes`;
+export const GET_PORTATILES_SIN_DEVOLVER = `${API_BASE_URL}/salas-controller/get-equipo-portatil-sin-devolver`;
+export const GET_EQUIPO_DISPONIBLE = `${API_BASE_URL}/salas-controller/get-equipo-portatil-disponible`;
 
 // ... más URLs según sea necesario
 
@@ -42,4 +47,10 @@ export default {
   GET_SEMESTRE,
   GET_JORNADA,
   POST_SAVE_ESTUDIANTE_LISTA,
+  GET_USUARIO_BY_DOCUMENTO,
+  GET_UBICACION,
+  POST_SAVE_REGISTRO_PORTATIL,
+  GET_SOLICITUDES_PENDIENTES,
+  GET_PORTATILES_SIN_DEVOLVER,
+  GET_EQUIPO_DISPONIBLE,
 };

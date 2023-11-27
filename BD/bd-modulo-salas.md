@@ -1,4 +1,4 @@
-# Diagrama de base de datos. Modulo salas
+# Diagrama de base de datos. Modulo salas y protatil
 
 ```mermaid
 erDiagram
@@ -88,5 +88,50 @@ erDiagram
         int id
         string descripcion
         string estado
+    }
+    DEPENDENCIA {
+        int id
+        string descripcion
+        string estado
+    }
+    UBICACION {
+        int id
+        string descripcion
+        string estado
+    }
+    FUNCIONARIO }o--|| DEPENDENCIA : iddependencia
+    FUNCIONARIO {
+        int id
+        string documento
+        string nombre
+        string apellido
+        int iddependencia
+        string estado
+    }
+    USUARIOLISTANEGRA }o--|| FUNCIONARIO : idfuncionario
+    USUARIOLISTANEGRA }o--|| ESTUDIANTE : idestudiante
+    USUARIOLISTANEGRA }o--|| PROFESOR : idprofesor
+    USUARIOLISTANEGRA {
+        int id
+        int idfuncionario
+        int idestudiante
+        int idprofesor
+        datetime fechacreacion
+    }
+    REGISTROPORTATIL }o--|| FUNCIONARIO : idfuncionario
+    REGISTROPORTATIL }o--|| ESTUDIANTE : idestudiante
+    REGISTROPORTATIL }o--|| PROFESOR : idprofesor
+    REGISTROPORTATIL }o--|| EQUIPO : idequipo
+    REGISTROPORTATIL {
+        int id
+        int idfuncionario
+        int idestudiante
+        int idprofesor
+        string celular
+        datetime fechasolicitud
+        int idequipo
+        string usuarioasigna
+        datetime fechaasigna
+        datetime fecharegreso
     }
 ```
