@@ -19,7 +19,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in reportData" :key="index">
+            <tr
+              v-for="(item, index) in reportData"
+              :key="index"
+              :class="{ 'table-danger': item.bloqueado == 'SI' }"
+            >
               <td>{{ item.documento }}</td>
               <td>{{ item.nombre }}</td>
               <td>{{ item.apellido }}</td>
@@ -28,6 +32,7 @@
               <td>
                 <select
                   class="form-select"
+                  :disabled="item.bloqueado == 'SI'"
                   aria-label="Lista de equipos"
                   :id="'selectEquipo' + index"
                   v-model="item.idequipo"
@@ -42,14 +47,25 @@
                 </select>
               </td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  :class="{ disabled: !item.idequipo }"
-                  @click="confirmarAsignacion(item)"
-                >
-                  Asignar equipo
-                </button>
+                <div v-if="item.bloqueado == 'SI'">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    @click="eliminarSolicitud(item)"
+                  >
+                    Eliminar Solicitud
+                  </button>
+                </div>
+                <div v-else>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    :class="{ disabled: !item.idequipo }"
+                    @click="confirmarAsignacion(item)"
+                  >
+                    Asignar equipo
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -67,6 +83,7 @@ import {
   GET_SOLICITUDES_PENDIENTES,
   POST_SAVE_REGISTRO_PORTATIL,
   GET_EQUIPO_DISPONIBLE,
+  DELETE_SOLICITUD_LISTA_NEGRA,
 } from "@/config/apiUrls.js";
 
 export default {
@@ -98,6 +115,7 @@ export default {
           fechasolicitud: null,
           apellido: null,
           idprofesor: null,
+          bloqueado: null,
         },
       ],
       equipoDisponibleList: [
@@ -190,6 +208,46 @@ export default {
       // Limpiar y liberar recursos
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
+    },
+    eliminarSolicitud(item) {
+      console.log(item);
+      // Use sweetalert2
+      // this.$swal("Hello Vue world!!!");
+
+      this.$swal
+        .fire({
+          title: "¿Estás seguro?",
+          text: "¡No podrás revertir esto!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, Confirmo asignacion",
+        })
+        .then((result) => {
+          console.log(result);
+          if (result.isConfirmed) {
+            axios
+              .delete(DELETE_SOLICITUD_LISTA_NEGRA, {
+                params: { id: item.id, usuario: this.nombreUsuario },
+              })
+              .then((response) => {
+                console.log("Respuesta del servidor:", response.data);
+                // Manejar respuesta
+                if (response.data.code == 0) {
+                  this.$toast.success("Eliminacion realiza con Exito!.");
+                  this.limpiarDatos();
+                } else {
+                  this.$toast.error("Corrio un error almacenando los datos.");
+                }
+              })
+              .catch((error) => {
+                // Manejar error
+                console.error("Error almacenando los registros.", error);
+                this.$toast.error("Error almacenando los registros.");
+              });
+          }
+        });
     },
 
     confirmarAsignacion(item) {

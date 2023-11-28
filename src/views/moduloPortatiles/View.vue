@@ -277,14 +277,21 @@
             <tabla-gestion-retorno/>
           </div>
 
+          
+          <div v-if="selectedRole === 'listabloqueo'">
+            <tabla-lista-bloqueo/>
+          </div>
+
           <div v-if="selectedRole === 'reporte'">
             <!-- Componente personalizado TableResult -->
-            <reporte-modulo-salas></reporte-modulo-salas>
+            
+            <reporte-modulo-portatiles></reporte-modulo-portatiles>
           </div>
 
           <div v-if="selectedRole === 'cargausuarios'">
             <!-- Componente personalizado Carga Archvio Modulo Salas -->
-            <carga-archivo-modulo-salas></carga-archivo-modulo-salas>
+            <carga-archivo-modulo-portatiles/>
+            
           </div>
         </div>
       </div>
@@ -316,9 +323,12 @@ import ReporteModuloSalas from "../../components/ReporteModuloSalas.vue";
 import CargaArchivoModuloSalas from "../../components/CargaArchivoModuloSalas.vue";
 import TablaGestionSolicitudesPendientes from "../../components/TablaGestionSolicitudesPendientes.vue";
 import TablaGestionRetorno from "../../components/TablaGestionRetorno.vue";
+import TablaListaBloqueo from "../../components/TablaListaBloqueo.vue";
+import ReporteModuloPortatiles from '../../components/ReporteModuloPortatiles.vue';
+import CargaArchivoModuloPortatiles from '../../components/CargaArchivoModuloPortatiles.vue';
 
 export default {
-  components: { ReporteModuloSalas, CargaArchivoModuloSalas, TablaGestionSolicitudesPendientes,TablaGestionRetorno },
+  components: { ReporteModuloSalas, CargaArchivoModuloSalas, TablaGestionSolicitudesPendientes,TablaGestionRetorno, TablaListaBloqueo, ReporteModuloPortatiles, CargaArchivoModuloPortatiles },
   created() {
     this.obtenerUbicacion();
   },

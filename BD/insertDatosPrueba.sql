@@ -72,5 +72,9 @@ INSERT INTO equipo
 (id, descripcion, idsala)
 VALUES(null, 'PORTATIL 02', NULL);
 
+INSERT INTO equipo
+(id, descripcion, idsala)
+VALUES(-1, 'SOLICITUD RECHAZADA', NULL);
+
 
 

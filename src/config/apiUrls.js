@@ -25,6 +25,11 @@ export const POST_SAVE_REGISTRO_PORTATIL = `${API_BASE_URL}/salas-controller/sav
 export const GET_SOLICITUDES_PENDIENTES = `${API_BASE_URL}/salas-controller/get-solicitudes-pendientes`;
 export const GET_PORTATILES_SIN_DEVOLVER = `${API_BASE_URL}/salas-controller/get-equipo-portatil-sin-devolver`;
 export const GET_EQUIPO_DISPONIBLE = `${API_BASE_URL}/salas-controller/get-equipo-portatil-disponible`;
+export const DELETE_SOLICITUD_LISTA_NEGRA = `${API_BASE_URL}/salas-controller/delete-solicitud-lista-negra`;
+export const GET_USUARIO_LISTA_NEGRA = `${API_BASE_URL}/salas-controller/get-usuario-lista-negra`;
+export const GET_REPORTE_MODULO_PORTATILES = `${API_BASE_URL}/salas-controller/get-reporte-modulo-portatiles`;
+export const GET_DEPENDENCIA = `${API_BASE_URL}/salas-controller/get-dependencia`;
+
 
 // ... más URLs según sea necesario
 
@@ -53,4 +58,8 @@ export default {
   GET_SOLICITUDES_PENDIENTES,
   GET_PORTATILES_SIN_DEVOLVER,
   GET_EQUIPO_DISPONIBLE,
+  DELETE_SOLICITUD_LISTA_NEGRA,
+  GET_USUARIO_LISTA_NEGRA,
+  GET_REPORTE_MODULO_PORTATILES,
+  GET_DEPENDENCIA,
 };
